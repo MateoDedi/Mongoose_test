@@ -7,18 +7,29 @@ const addressSchema = new mongoose.Schema({
 
 const userSchema = new mongoose.Schema({
     name: String,
-    age: Number,
+    age: {
+        type: Number,
+        min: 1,
+        max: 100,
+        validate: {
+            validator: v => v % 2,
+            message: props => ` ${props.value} is not an even number`,
+        },
+    },
     email: {
         type: String,
+        minLenngth: 10,
         required: true,
         lowercase: true,
     },
     createdAt: {
         type: Date,
+        immutable: true,
         default: () => Date.now(),
     },
     updatedAt: {
         type: Date,
+        immutable: true,
         default: () => Date.now(),
     },
     bestfriend: mongoose.SchemaTypes.ObjectId,
